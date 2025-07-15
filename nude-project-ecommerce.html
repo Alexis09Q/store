@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNIFORM — Reinvent Your Style</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-off-white: #F9F6F2;
+            --primary-black: #000000;
+            --soft-beige: #E8E3DD;
+            --warm-gray: #6E6E6E;
+            --dark-brown: #2C1810;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--primary-off-white);
+            color: var(--primary-black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            font-weight: 300;
+            color: var(--warm-gray);
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(249, 246, 242, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px 40px;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-black);
+            text-decoration: none;
+            letter-spacing: 0.1em;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-black);
+            font-weight: 400;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--dark-brown);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--dark-brown);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary-off-white) 0%, var(--soft-beige) 100%);
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeInUp 2s ease forwards 0.5s;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 8rem);
+            margin-bottom: 30px;
+            line-height: 0.9;
+            color: var(--primary-black);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--warm-gray);
+            margin-bottom: 50px;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: var(--primary-black);
+            color: var(--primary-off-white);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            background: var(--dark-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Collections Grid */
+        .collections {
+            padding: 120px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 80px;
+            opacity: 0;
+        }
+
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .collection-card {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            cursor: pointer;
+            background: var(--soft-beige);
+            transition: all 0.6s ease;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .collection-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .collection-card:hover .collection-image {
+            transform: scale(1.05);
+        }
+
+        .collection-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 40px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .collection-card:hover .collection-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .collection-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .collection-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+        }
+
+        /* Product Display */
+        .products {
+            padding: 120px 40px;
+            background: var(--soft-beige);
+        }
+
+        .products-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 80px;
+        }
+
+        .product-card {
+            background: var(--primary-off-white);
+            padding: 20px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.02);
+        }
+
+        .product-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-black);
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-black);
+            color: var(--primary-off-white);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .add-to-cart:hover {
+            background: var(--dark-brown);
+            animation: pulse 0.6s ease;
+        }
+
+        /* Brand Story */
+        .brand-story {
+            padding: 120px 40px;
+            background: var(--primary-black);
+            color: var(--primary-off-white);
+        }
+
+        .story-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .story-content h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 30px;
+            color: var(--primary-off-white);
+        }
+
+        .story-content p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: rgba(249, 246, 242, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .story-video {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.6s ease;
+        }
+
+        .story-video:hover {
+            filter: grayscale(0%);
+        }
+
+        /* Lookbook */
+        .lookbook {
+            padding: 120px 40px;
+        }
+
+        .lookbook-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .lookbook-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+
+        .lookbook-item {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .lookbook-item:hover {
+            transform: scale(1.02);
+        }
+
+        .lookbook-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .lookbook-item:hover .lookbook-image {
+            transform: scale(1.1);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 0 20px;
+            }
+
+            .collections, .products, .brand-story, .lookbook {
+                padding: 80px 20px;
+            }
+
+            .story-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .collections-grid, .products-grid, .lookbook-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mobile-cart-bar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--primary-black);
+                color: var(--primary-off-white);
+                padding: 20px;
+                text-align: center;
+                z-index: 1000;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            min-width: 200px;
+        }
+
+        .trust-badge h4 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--primary-black);
+        }
+
+        .trust-badge p {
+            font-size: 0.9rem;
+            color: var(--warm-gray);
+        }
+
+        /* Quick Shop Modal */
+        .quick-shop-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .quick-shop-content {
+            background: var(--primary-off-white);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Stock Alert */
+        .stock-alert {
+            background: #ff6b6b;
+            color: white;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            border-radius: 4px;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-black);
+            color: var(--primary-off-white);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: var(--primary-black);
+            color: var(--primary-off-white);
+        }
+
+        body.dark-mode .header {
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        body.dark-mode .hero {
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--dark-brown) 100%);
+        }
+
+        body.dark-mode .product-card {
+            background: var(--dark-brown);
+        }
+
+        body.dark-mode .collections {
+            background: var(--primary-black);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="logo">UNIFORM</a>
+            <ul class="nav-links">
+                <li><a href="#collections">Collections</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#story">Story</a></li>
+                <li><a href="#lookbook">Lookbook</a></li>
+            </ul>
+            <div class="nav-icons">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 4V2C7 1.45 7.45 1 8 1h8c.55 0 1 .45 1 1v2h5v2h-2v13c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6H2V4h5zM9 3v1h6V3H9zm0 5v9h2V8H9zm4 0v9h2V8h-2z"/>
+                </svg>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <video class="hero-video" autoplay muted loop>
+            <source src="data:video/mp4;base64," type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1 class="hero-title">Reinvent Your Uniform</h1>
+            <p class="hero-subtitle">Designed for movement. Built for life.</p>
+            <a href="#collections" class="cta-button">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Collections -->
+    <section id="collections" class="collections">
+        <h2 class="section-title fade-in">Collections</h2>
+        <div class="collections-grid">
+            <div class="collection-card fade-in">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23E8E3DD'/%3E%3Ctext x='200' y='250' text-anchor='middle' fill='%236E6E6E' font-size='24' font-family='Arial'%3EMen's Collection%3C/text%3E%3C/svg%3E" alt="Men's Collection" class="collection-image">
+                <div class="collection-overlay">
+                    <h3 class="collection-title">Men</h3>
+                    <p class="collection-subtitle">Explore SS24 Collection</p>
+                </div>
+            </div>
+            <div class="collection-card fade-in">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F9F6F2'/%3E%3Ctext x='200' y='250' text-anchor='middle' fill='%236E6E6E' font-size='24' font-family='Arial'%3EWomen's Collection%3C/text%3E%3C/svg%3E" alt="Women's Collection" class="collection-image">
+                <div class="collection-overlay">
+                    <h3 class="collection-title">Women</h3>
+                    <p class="collection-subtitle">Explore SS24 Collection</p>
+                </div>
+            </div>
+            <div class="collection-card fade-in">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23000000'/%3E%3Ctext x='200' y='250' text-anchor='middle' fill='%23FFFFFF' font-size='24' font-family='Arial'%3EShoes%3C/text%3E%3C/svg%3E" alt="Shoes Collection" class="collection-image">
+                <div class="collection-overlay">
+                    <h3 class="collection-title">Shoes</h3>
+                    <p class="collection-subtitle">Step Forward</p>
+                </div>
+            </div>
+            <div class="collection-card fade-in">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%236E6E6E'/%3E%3Ctext x='200' y='250' text-anchor='middle' fill='%23FFFFFF' font-size='24' font-family='Arial'%3EAccessories%3C/text%3E%3C/svg%3E" alt="Accessories Collection" class="collection-image">
+                <div class="collection-overlay">
+                    <h3 class="collection-title">Accessories</h3>
+                    <p class="collection-subtitle">Complete the Look</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="products">
+        <div class="products-container">
+            <h2 class="section-title fade-in">Featured Products</h2>
+            <div class="products-grid">
+                <div class="product-card fade-in">
+                    <div class="stock-alert">Low Stock</div>
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect width='300' height='350' fill='%23E8E3DD'/%3E%3Ctext x='150' y='175' text-anchor='middle' fill='%236E6E6E' font-size='16' font-family='Arial'%3EClassic Hoodie%3C/text%3E%3C/svg%3E" alt="Classic Hoodie" class="product-image">
+                    <div class="product-info">
+                        <h3>Classic Hoodie</h3>
+                        <p class="product-price">€89</p>
+                        <button class="add-to-cart" onclick="addToCart('Classic Hoodie', '€89')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect width='300' height='350' fill='%23F9F6F2'/%3E%3Ctext x='150' y='175' text-anchor='middle' fill='%236E6E6E' font-size='16' font-family='Arial'%3EMinimal Tee%3C/text%3E%3C/svg%3E" alt="Minimal Tee" class="product-image">
+                    <div class="product-info">
+                        <h3>Minimal Tee</h3>
+                        <p class="product-price">€45</p>
+                        <button class="add-to-cart" onclick="addToCart('Minimal Tee', '€45')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect width='300' height='350' fill='%23000000'/%3E%3Ctext x='150' y='175' text-anchor='middle' fill='%23FFFFFF' font-size='16' font-family='Arial'%3ESignature Jeans%3C/text%3E%3C/svg%3E" alt="Signature Jeans" class="product-image">
+                    <div class="product-info">
+                        <h3>Signature Jeans</h3>
+                        <p class="product-price">€120</p>
+                        <button class="add-to-cart" onclick="addToCart('Signature Jeans', '€120')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect width='300' height='350' fill='%236E6E6E'/%3E%3Ctext x='150' y='175' text-anchor='middle' fill='%23FFFFFF' font-size='16' font-family='Arial'%3ESneakers%3C/text%3E%3C/svg%3E" alt="Premium Sneakers" class="product-image">
+                    <div class="product-info">
+                        <h3>Premium Sneakers</h3>
+                        <p class="product-price">€180</p>
+                        <button class="add-to-cart" onclick="addToCart('Premium Sneakers', '€180')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <h4>Carbon Neutral Shipping</h4>
+                    <p>Sustainable delivery options</p>
+                </div>
+                <div class="trust-badge">
+                    <h4>Free Returns</h4>
+                    <p>30-day return policy</p>
+                </div>
+                <div class="trust-badge">
+                    <h4>Premium Quality</h4>
+                    <p>Carefully crafted materials</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Story -->
+    <section id="story" class="brand-story">
+        <div class="story-container">
+            <div class="story-content fade-in">
+                <h2>Our Philosophy</h2>
+                <p>Designed for movement. Built for life.</p>
+                <p>We believe clothing should evolve with you, adapting to every moment while maintaining its essential character. Each piece is thoughtfully crafted to become part of your personal uniform.</p>
+                <p>Our commitment extends beyond aesthetics to sustainability, quality, and the timeless appeal of minimalist design.</p>
+            </div>
+            <div class="story-media fade-in">
+                <video class="story-video" autoplay muted loop>
+                    <source src="data:video/mp4;base64," type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lookbook -->
+    <section id="lookbook" class="lookbook">
+        <div class="lookbook-container">
+            <h2 class="section-title fade-in">Lookbook</h2>
+            <div class="lookbook-grid">
+                <div class="lookbook-item fade-in">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='500' viewBox='0 0 350 500'%3E%3Crect width='350' height='500' fill='%23E8E3DD'/%3E%3Ctext x='175' y='250' text-anchor='middle' fill='%236E6E6E' font-size='18' font-family='Arial'%3EUrban Essentials%3C/text%3E%3C/svg%3E" alt="Urban Essentials" class="lookbook-image">
+                </div>
+                <div class="lookbook-item fade-in">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='500' viewBox='0 0 350 500'%3E%3Crect width='350' height='500' fill='%23F9F6F2'/%3E%3Ctext x='175' y='250' text-anchor='middle' fill='%236E6E6E' font-size='18' font-family='Arial'%3EMinimal Looks%3C/text%3E%3C/svg%3E" alt="Minimal Looks" class="lookbook-image">
+                </div>
+                <div class="lookbook-item fade-in">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='500' viewBox='0 0 350 500'%3E%3Crect width='350' height='500' fill='%23000000'/%3E%3Ctext x='175' y='250' text-anchor='middle' fill='%23FFFFFF' font-size='18' font-family='Arial'%3EEvening Wear%3C/text%3E%3C/svg%3E" alt="Evening Wear" class="lookbook-image">
+                </div>
+                <div class="lookbook-item fade-in">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='500' viewBox='0 0 350 500'%3E%3Crect width='350' height='500' fill='%236E6E6E'/%3E%3Ctext x='175' y='250' text-anchor='middle' fill='%23FFFFFF' font-size='18' font-family='Arial'%3ECasual Comfort%3C/text%3E%3C/svg%3E" alt="Casual Comfort" class="lookbook-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Cart Bar -->
+    <div class="mobile-cart-bar">
+        <button class="cta-button" style="width: 100%; margin: 0;">Continue Shopping</button>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+
+    <!-- Quick Shop Modal -->
+    <div class="quick-shop-modal" id="quickShopModal">
+        <div class="quick-shop-content">
+            <button class="close-modal" onclick="closeQuickShop()">&times;</button>
+            <h3 id="modalProductName">Product Name</h3>
+            <p id="modalProductPrice">Price</p>
+            <p>Size: <select><option>S</option><option>M</option><option>L</option><option>XL</option></select></p>
+            <button class="add-to-cart" style="width: 100%; margin-top: 20px;">Add to Cart</button>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header scroll effect
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+            
+            if (scrollTop > 100) {
+                header.style.background = 'rgba(249, 246, 242, 0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(249, 246, 242, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+
+        // Add to cart functionality
+        function addToCart(productName, price) {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = 'Added!';
+            button.style.background = '#4CAF50';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = '';
+            }, 2000);
+
+            // Show notification
+            showNotification(`${productName} added to cart`);
+        }
+
+        // Notification system
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: var(--primary-black);
+                color: var(--primary-off-white);
+                padding: 15px 25px;
+                border-radius: 5px;
+                z-index: 9999;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: all 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Quick shop modal
+        function openQuickShop(productName, price) {
+            document.getElementById('modalProductName').textContent = productName;
+            document.getElementById('modalProductPrice').textContent = price;
+            document.getElementById('quickShopModal').style.display = 'flex';
+        }
+
+        function closeQuickShop() {
+            document.getElementById('quickShopModal').style.display = 'none';
+        }
+
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const button = document.querySelector('.dark-mode-toggle');
+            button.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            
+            // Save preference
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.dark-mode-toggle').textContent = '☀️';
+        }
+
+        // Parallax effect for lookbook
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const lookbookItems = document.querySelectorAll('.lookbook-item');
+            
+            lookbookItems.forEach((item, index) => {
+                const rate = scrolled * -0.5;
+                item.style.transform = `translateY(${rate * (index % 2 === 0 ? 1 : -1) * 0.1}px)`;
+            });
+        });
+
+        // Mobile touch interactions
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('.collection-card, .product-card').forEach(card => {
+                card.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                card.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                });
+            });
+        }
+
+        // Preload critical images
+        const preloadImages = [
+            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="500"%3E%3C/svg%3E'
+        ];
+
+        preloadImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        // Performance optimization
+        const debouncedScroll = debounce(() => {
+            // Scroll-based animations
+        }, 16);
+
+        window.addEventListener('scroll', debouncedScroll);
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Trigger initial animations
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach((el, index) => {
+                    setTimeout(() => {
+                        if (el.getBoundingClientRect().top < window.innerHeight) {
+                            el.classList.add('visible');
+                        }
+                    }, index * 100);
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>
